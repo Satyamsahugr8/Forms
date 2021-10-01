@@ -22,19 +22,31 @@ function validateInput(){
     }
 
     //password
+    let pwdcheck=true;
     if(pwd.value.trim()===""){
         onError(pwd,"User Name cannot be empty");
      }else{
-         onSuccess(pwd);
+        if(!isValidPwd(pwd.value.trim())){
+            pwdcheck=false;
+            onError(pwd,"password should contains only alphanumeric characters");
+        }else{
+            pwdcheck=true;
+            onSuccess(pwd);
+        }
      }
+
      if(conPwd.value.trim()===""){
         onError(conPwd,"User Name cannot be empty");
      }else{
-         if(pwd.value.trim()!==conPwd.value.trim()){
+         if(!pwdcheck){
+            onError(conPwd,"password should contains only alphanumeric characters");
+         }
+         else if(pwd.value.trim()!==conPwd.value.trim()){
             onError(conPwd,"Password & Confirm password not matching");
          }
-         else
+         else{
          onSuccess(conPwd);
+        }
      }
 }
 
@@ -65,5 +77,9 @@ function isValidEmail(email){
    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 }
 
+function isValidPwd(pwd){
+    console.log(/\d/.test(pwd));
+    return /\d/.test(pwd) && /^[a-z0-9]/.test(pwd);
+}
 
 
